@@ -8,10 +8,13 @@ module.exports = {
     vendor: ['vue','vuex','vue-router'],
     bundle: './src/index'
   },
+  //devtool: 'source-map',
+  //debug: true,
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: '[hash:8].[name].js',
-    publicPath: '/'
+    path: 'dist',
+    filename: 'static/js/[name].[chunkhash].js',
+    chunkFilename: 'static/js/[id].[chunkhash].js'
+    // publicPath: 'assets'
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -20,15 +23,15 @@ module.exports = {
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false }
+       compress: { warnings: false }
     }),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
       name: "vendor",
-      //filename:"vendor.js",
+      filename:"static/js/[name].[chunkhash].js",
       minChunks: Infinity //Infinity
     }),
-    new ExtractTextPlugin('[hash:8].style.css', { allChunks: true }),
+    // new ExtractTextPlugin('static/css/[name].[contenthash].css', { allChunks: true }),
     new HtmlWebpackPlugin({
       favicon:path.join(__dirname,'src/favicon.ico'),
       title: "Jackblog vue版",
@@ -46,14 +49,14 @@ module.exports = {
       { test: /\.js$/, loader: "eslint-loader", exclude: /node_modules/ }
     ],
     loaders: [
-      { test: /\.vue$/,loader: 'vue', include: path.join(__dirname,'src')}, 
-      { test: /\.js$/, loader: 'babel', exclude: /node_modules|vue\/dist|vue-hot-reload-api|vue-router\/|vue-loader/}, 
-      { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap' ) },
+      { test: /\.vue$/,loader: 'vue', include: path.join(__dirname,'src')},
+      { test: /\.js$/, loader: 'babel', exclude: /node_modules|vue\/dist|vue-hot-reload-api|vue-router\/|vue-loader/},
+      // { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader' ) },
+      { test: /\.css$/, loader: 'style-loader!css-loader'},
       { test: /\.(jpe?g|png|gif)$/i, loaders: [
-        'url?limit=10000&name=images/[hash:8].[name].[ext]',
-        'image-webpack?{progressive:true, optimizationLevel: 7, interlaced: false, pngquant:{quality: "65-90", speed: 4}}'
+        'url?limit=10000&name=static/img/[name].[hash:7].[ext]'
       ]},
-      { test: /\.(woff|woff2|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url?limit=10000&name=fonts/[hash:8].[name].[ext]'}
+      { test: /\.(woff|woff2|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url?limit=10000&name=static/fonts/[name].[hash:7].[ext]'}
     ]
   },
   vue: {

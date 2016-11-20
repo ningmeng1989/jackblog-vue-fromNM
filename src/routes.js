@@ -23,6 +23,7 @@ export default function (router) {
     '*': {
       component: require('./components/NotFound.vue')
     }
+
   })
   // router.beforeEach((transition)=>{
   //   transition.next()

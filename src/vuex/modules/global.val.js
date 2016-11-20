@@ -5,9 +5,10 @@ import {
 	GET_CAPTCHAURL
 } from '../types'
 import { getCookie,saveCookie } from '../../utils/authService'
+var img=require('../../assets/images/boy.jpg')
 
 const state = {
-  indexImg: '',
+  indexImg: img,
   styleMode: getCookie('styleMode') || 'day-mode',
   captchaUrl: API_ROOT + 'users/getCaptcha?'
 }
@@ -17,8 +18,11 @@ const mutations = {
     state.styleMode = (state.styleMode === 'day-mode')?'night-mode':'day-mode'
     saveCookie('styleMode', state.styleMode)
   },
+  // [GET_INDEX_IMG](state, action){
+  //   state.indexImg = action.indexImg
+  // },
   [GET_INDEX_IMG](state, action){
-    state.indexImg = action.indexImg
+    state.indexImg = img
   },
   [GET_CAPTCHAURL](state){
     state.captchaUrl = API_ROOT + 'users/getCaptcha?' + Math.random()
